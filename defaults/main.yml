@@ -1,0 +1,11 @@
+---
+dubzland_dovecot_virtual_domains: []
+dubzland_dovecot_cert_file: ""
+dubzland_dovecot_key_file: ""
+
+dubzland_dovecot_db_driver: pgsql
+dubzland_dovecot_db_host: 127.0.0.1
+dubzland_dovecot_db_username: mailserver
+dubzland_dovecot_db_password: notsekret
+dubzland_dovecot_db_name: mailserver
+dubzland_dovecot_password_query: "SELECT email AS user, password FROM virtual_users WHERE email='%u'"

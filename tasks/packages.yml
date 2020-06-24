@@ -1,0 +1,7 @@
+---
+- name: ensure Dovecot packages are installed
+  package:
+    name: "{{ item }}"
+    state: present
+    install_recommends: False
+  loop: "{{ dubzland_dovecot_packages }}"

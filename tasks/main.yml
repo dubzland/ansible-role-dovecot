@@ -1,0 +1,53 @@
+---
+- import_tasks: variables.yml
+- import_tasks: packages.yml
+
+- name: ensure the vmail group exists
+  group:
+    name: vmail
+    gid: 5000
+
+- name: ensure the vmail user exists
+  user:
+    name: vmail
+    group: vmail
+    uid: 5000
+    home: /var/mail
+
+- name: ensure the vmail user owns the dovecot directory
+  file:
+    path: /etc/dovecot
+    owner: vmail
+    group: dovecot
+    mode: 0740
+    state: directory
+
+- name: ensure the vmail user owns /var/mail
+  file:
+    path: /var/mail
+    owner: vmail
+    group: vmail
+    recurse: yes
+    state: directory
+
+- name: ensure required directories exist
+  file:
+    path: "/var/mail/vhosts/{{ item }}"
+    owner: vmail
+    group: vmail
+    state: directory
+  loop: "{{ dubzland_dovecot_virtual_domains }}"
+
+- name: ensure the DH parameters exist
+  command: openssl dhparam -out /etc/dovecot/dh.pem 4096
+  args:
+    creates: /etc/dovecot/dh.pem
+
+- import_tasks: configuration.yml
+
+- meta: flush_handlers
+
+- name: ensure Dovecot is running
+  service:
+    name: dovecot
+    state: started

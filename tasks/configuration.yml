@@ -1,0 +1,19 @@
+---
+
+- name: ensure dovecot is configured
+  template:
+    src: "etc/dovecot/{{ item }}.j2"
+    dest: "/etc/dovecot/{{ item }}"
+    owner: vmail
+    group: dovecot
+    mode: 0644
+  with_items:
+    - "dovecot.conf"
+    - "dovecot-sql.conf.ext"
+    - "conf.d/10-auth.conf"
+    - "conf.d/10-mail.conf"
+    - "conf.d/10-master.conf"
+    - "conf.d/10-ssl.conf"
+    - "conf.d/auth-sql.conf.ext"
+  notify:
+    - restart Dovecot

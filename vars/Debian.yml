@@ -1,0 +1,7 @@
+---
+dubzland_dovecot_packages:
+  - dovecot-core
+  - dovecot-imapd
+  - dovecot-pop3d
+  - dovecot-lmtpd
+  - dovecot-pgsql
